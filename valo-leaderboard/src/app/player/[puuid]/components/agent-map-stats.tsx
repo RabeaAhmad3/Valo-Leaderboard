@@ -28,9 +28,12 @@ function StatsTable({
   const best = data.reduce((prev, current) => 
     current.winRate > prev.winRate ? current : prev
   );
-  const worst = data.reduce((prev, current) => 
+  
+  // Only show worst if player has losses (win rate < 100%)
+  const hasLosses = data.some(stat => stat.winRate < 100);
+  const worst = hasLosses ? data.reduce((prev, current) => 
     current.winRate < prev.winRate ? current : prev
-  );
+  ) : null;
 
   return (
     <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
@@ -40,9 +43,11 @@ function StatsTable({
           <div className="text-green-400">
             Best: <span className="font-medium">{nameKey === 'agent' ? (best as AgentStats).agent : (best as MapStats).map}</span> ({best.winRate}%)
           </div>
-          <div className="text-red-400">
-            Worst: <span className="font-medium">{nameKey === 'agent' ? (worst as AgentStats).agent : (worst as MapStats).map}</span> ({worst.winRate}%)
-          </div>
+          {worst && (
+            <div className="text-red-400">
+              Worst: <span className="font-medium">{nameKey === 'agent' ? (worst as AgentStats).agent : (worst as MapStats).map}</span> ({worst.winRate}%)
+            </div>
+          )}
         </div>
       </div>
 
