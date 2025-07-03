@@ -112,8 +112,7 @@ export function TierListClient({ initialTiers }: TierListClientProps) {
       <div className="mt-8 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
         <p className="text-gray-400 text-sm text-center">
           💡 Drag players between tiers to create your own ranking! 
-          Calculated tiers are based on last 3 games performance, but feel free to rearrange.
-          Rankings reset when you refresh the page.
+          Hover over players to see their stats. Rankings reset when you refresh the page.
         </p>
       </div>
     </DndContext>

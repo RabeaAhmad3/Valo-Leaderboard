@@ -82,4 +82,6 @@ export interface TierListPlayer {
   last3GamesAdr: number;
   last3GamesAcs: number;
   last3GamesWinRate: number;
+  gamesUsed: number;
+  bestAgent: string;
 }

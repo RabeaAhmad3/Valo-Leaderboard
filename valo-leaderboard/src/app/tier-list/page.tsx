@@ -20,7 +20,7 @@ export default async function TierListPage() {
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-12 text-center border border-gray-700">
               <p className="text-gray-400">
-                Not enough data - players need at least 3 matches to appear in tier list
+                No match data available - add some matches to see the tier list
               </p>
             </div>
           </div>
@@ -38,11 +38,12 @@ export default async function TierListPage() {
               Tier List
             </h1>
             <p className="text-gray-400 mb-4">
-              Form-based ranking from last 3 games
+              In-form leaderboard based on recent performance (last 3 games)
             </p>
             <div className="text-sm text-gray-500">
               <p>Composite Score = 0.45×K/D + 0.25×ADR + 0.20×ACS + 0.10×Win%</p>
               <p>Tiers: S (≥+1σ), A (≥+0.3σ), B (±0.3σ), C (≤-0.3σ), D (≤-1σ)</p>
+              <p>Uses last 3 games if available, or fewer for newer players</p>
             </div>
           </div>
 
