@@ -31,7 +31,11 @@ export function HeroStats({ stats }: HeroStatsProps) {
       label: 'Avg ACS',
       value: Math.round(stats.avgAcs),
       subtext: 'Per game',
-      color: 'from-yellow-600 to-yellow-700',
+      color: stats.avgAcs >= 300 ? 'from-green-400 to-green-500' :
+             stats.avgAcs >= 200 ? 'from-green-600 to-green-700' :
+             stats.avgAcs >= 150 ? 'from-yellow-600 to-yellow-700' :
+             stats.avgAcs >= 100 ? 'from-orange-600 to-orange-700' :
+             'from-red-600 to-red-700',
     },
     {
       label: 'Headshot %',
