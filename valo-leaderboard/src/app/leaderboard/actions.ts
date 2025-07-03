@@ -31,7 +31,7 @@ export async function getLeaderboardData(): Promise<LeaderboardEntry[]> {
         kills: acc.kills + match.kills,
         deaths: acc.deaths + match.deaths,
         assists: acc.assists + match.assists,
-        score: acc.score + match.score,
+        avgCombatScore: acc.avgCombatScore + match.avgCombatScore,
         headshots: acc.headshots + match.headshots,
         bodyshots: acc.bodyshots + match.bodyshots,
         legshots: acc.legshots + match.legshots,
@@ -39,14 +39,14 @@ export async function getLeaderboardData(): Promise<LeaderboardEntry[]> {
         kills: 0,
         deaths: 0,
         assists: 0,
-        score: 0,
+        avgCombatScore: 0,
         headshots: 0,
         bodyshots: 0,
         legshots: 0,
       });
 
       const kd = totals.deaths > 0 ? totals.kills / totals.deaths : totals.kills;
-      const avgAcs = totals.score / games;
+      const avgAcs = totals.avgCombatScore / games;
       const totalShots = totals.headshots + totals.bodyshots + totals.legshots;
       const headshotPercent = totalShots > 0 ? (totals.headshots / totalShots) * 100 : 0;
 

@@ -74,7 +74,7 @@ export async function getAgentStats(playerId: number): Promise<AgentStats[]> {
     wins: number;
     kills: number;
     deaths: number;
-    score: number;
+    avgCombatScore: number;
   }>();
 
   matches.forEach(match => {
@@ -83,14 +83,14 @@ export async function getAgentStats(playerId: number): Promise<AgentStats[]> {
       wins: 0,
       kills: 0,
       deaths: 0,
-      score: 0,
+      avgCombatScore: 0,
     };
 
     current.games++;
     if (match.won) current.wins++;
     current.kills += match.kills;
     current.deaths += match.deaths;
-    current.score += match.score;
+    current.avgCombatScore += match.avgCombatScore;
 
     agentMap.set(match.agent, current);
   });
@@ -102,7 +102,7 @@ export async function getAgentStats(playerId: number): Promise<AgentStats[]> {
       wins: stats.wins,
       winRate: Math.round((stats.wins / stats.games) * 1000) / 10,
       kd: Math.round((stats.kills / (stats.deaths || 1)) * 100) / 100,
-      avgAcs: Math.round(stats.score / stats.games),
+      avgAcs: Math.round(stats.avgCombatScore / stats.games),
     }))
     // Show all agents (no minimum game requirement)
     .sort((a, b) => b.games - a.games);
@@ -122,7 +122,7 @@ export async function getMapStats(playerId: number): Promise<MapStats[]> {
     wins: number;
     kills: number;
     deaths: number;
-    score: number;
+    avgCombatScore: number;
   }>();
 
   matches.forEach(match => {
@@ -131,14 +131,14 @@ export async function getMapStats(playerId: number): Promise<MapStats[]> {
       wins: 0,
       kills: 0,
       deaths: 0,
-      score: 0,
+      avgCombatScore: 0,
     };
 
     current.games++;
     if (match.won) current.wins++;
     current.kills += match.kills;
     current.deaths += match.deaths;
-    current.score += match.score;
+    current.avgCombatScore += match.avgCombatScore;
 
     mapData.set(match.match.map, current);
   });
@@ -150,7 +150,7 @@ export async function getMapStats(playerId: number): Promise<MapStats[]> {
       wins: stats.wins,
       winRate: Math.round((stats.wins / stats.games) * 1000) / 10,
       kd: Math.round((stats.kills / (stats.deaths || 1)) * 100) / 100,
-      avgAcs: Math.round(stats.score / stats.games),
+      avgAcs: Math.round(stats.avgCombatScore / stats.games),
     }))
     // Show all maps (no minimum game requirement)
     .sort((a, b) => b.games - a.games);

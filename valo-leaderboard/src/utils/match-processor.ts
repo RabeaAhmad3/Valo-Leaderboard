@@ -50,8 +50,9 @@ export async function processMatchData(matchData: HenrikMatchData): Promise<Proc
     const playerTeam = player.team_id;
     const won = playerTeam === 'Red' ? match.redWon : match.blueWon;
     
-    // Calculate average combat score
-    const avgCombatScore = Math.round(player.stats.score / match.rounds);
+    // Calculate approximate ACS based on damage per round (since Henrik doesn't provide official ACS)
+    // Valorant ACS is complex, but damage per round is a reasonable approximation
+    const avgCombatScore = Math.round(player.stats.damage.dealt / match.rounds);
     
     // Calculate economy rating (damage per credit spent)
     const econRating = player.economy && player.economy.spent.overall > 0 
