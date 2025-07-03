@@ -122,16 +122,12 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
 
   // Calculate z-scores for each metric
   const kdMean = playerStats.reduce((sum, p) => sum + p.kd, 0) / playerStats.length;
-  const adrMean = playerStats.reduce((sum, p) => sum + p.adr, 0) / playerStats.length;
   const acsMean = playerStats.reduce((sum, p) => sum + p.acs, 0) / playerStats.length;
   const assistsMean = playerStats.reduce((sum, p) => sum + p.assists, 0) / playerStats.length;
   const winRateMean = playerStats.reduce((sum, p) => sum + p.winRate, 0) / playerStats.length;
 
   const kdStdDev = Math.sqrt(
     playerStats.reduce((sum, p) => sum + Math.pow(p.kd - kdMean, 2), 0) / playerStats.length
-  );
-  const adrStdDev = Math.sqrt(
-    playerStats.reduce((sum, p) => sum + Math.pow(p.adr - adrMean, 2), 0) / playerStats.length
   );
   const acsStdDev = Math.sqrt(
     playerStats.reduce((sum, p) => sum + Math.pow(p.acs - acsMean, 2), 0) / playerStats.length
@@ -146,7 +142,6 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
   // Calculate composite scores and assign tiers
   const tierListPlayers: TierListPlayer[] = playerStats.map(player => {
     const kdZ = kdStdDev > 0 ? (player.kd - kdMean) / kdStdDev : 0;
-    const adrZ = adrStdDev > 0 ? (player.adr - adrMean) / adrStdDev : 0;
     const acsZ = acsStdDev > 0 ? (player.acs - acsMean) / acsStdDev : 0;
     const assistsZ = assistsStdDev > 0 ? (player.assists - assistsMean) / assistsStdDev : 0;
     const winRateZ = winRateStdDev > 0 ? (player.winRate - winRateMean) / winRateStdDev : 0;
