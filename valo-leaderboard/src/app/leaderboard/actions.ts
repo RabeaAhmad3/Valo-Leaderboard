@@ -74,8 +74,8 @@ export async function getLeaderboardData(): Promise<LeaderboardEntry[]> {
       if (b.winRate !== a.winRate) {
         return b.winRate - a.winRate;
       }
-      // Secondary sort by KD
-      return b.kd - a.kd;
+      // Secondary sort by ACS
+      return b.avgAcs - a.avgAcs;
     });
 
   // Assign ranks
