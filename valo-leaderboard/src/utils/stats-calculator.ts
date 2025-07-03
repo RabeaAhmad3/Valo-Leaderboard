@@ -159,6 +159,18 @@ export async function calculatePlayerBadges(playerId: number): Promise<string[]>
   const playerTotalClutches = allPlayersClutches.find(p => p.playerId === playerId)?._sum.clutches || 0;
   const hasMostClutches = playerTotalClutches > 0 && playerTotalClutches === maxClutches;
 
+  // Calculate average first bloods from recent games (last 3)
+  const recentMatches = await prisma.matchPlayer.findMany({
+    where: { playerId },
+    include: { match: true },
+    orderBy: { match: { startedAt: 'desc' } },
+    take: 3,
+  });
+
+  const recentFirstBloodsAvg = recentMatches.length > 0 
+    ? recentMatches.reduce((sum, match) => sum + match.firstBloods, 0) / recentMatches.length
+    : 0;
+
   const badgeStats: BadgeStats = {
     kd: stats.kd,
     headshotPercent: stats.headshotPercent,
@@ -166,6 +178,7 @@ export async function calculatePlayerBadges(playerId: number): Promise<string[]>
     clutchWinRate: stats.clutchWinRate,
     economyRating: stats.economyRating,
     firstBloodShare: stats.firstBloodShare,
+    recentFirstBloodsAvg,
     plants: stats.plants,
     defuses: stats.defuses,
     totalGames: stats.totalGames,

@@ -14,6 +14,7 @@ export interface BadgeStats {
   clutchWinRate: number;
   economyRating: number;
   firstBloodShare: number;
+  recentFirstBloodsAvg: number;
   plants: number;
   defuses: number;
   totalGames: number;
@@ -59,9 +60,9 @@ export const BADGES: Badge[] = [
   {
     id: 'entry-fragger',
     name: 'Entry Fragger',
-    description: 'First blood share ≥ 30%',
+    description: 'Average 4+ first bloods in last 3 games',
     type: 'serious',
-    condition: (stats) => stats.firstBloodShare >= 30,
+    condition: (stats) => stats.recentFirstBloodsAvg >= 4,
   },
   {
     id: 'spike-whisperer',
