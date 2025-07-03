@@ -9,6 +9,7 @@ interface PlayerStats {
   kd: number;
   adr: number; // Average damage per round
   acs: number;
+  assists: number; // Average assists per round
   winRate: number;
   matchCount: number;
   bestAgent: string;
@@ -52,12 +53,14 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
     const stats = matches.reduce((acc, match) => ({
       kills: acc.kills + match.kills,
       deaths: acc.deaths + match.deaths,
+      assists: acc.assists + match.assists,
       damage: acc.damage + match.damage,
       avgCombatScore: acc.avgCombatScore + match.avgCombatScore,
       wins: acc.wins + (match.won ? 1 : 0),
     }), {
       kills: 0,
       deaths: 0,
+      assists: 0,
       damage: 0,
       avgCombatScore: 0,
       wins: 0,
@@ -67,6 +70,7 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
     const kd = stats.deaths > 0 ? stats.kills / stats.deaths : stats.kills;
     const adr = totalRounds > 0 ? stats.damage / totalRounds : 0;
     const acs = stats.avgCombatScore / matchCount; // Average across actual match count
+    const assistsPerRound = totalRounds > 0 ? stats.assists / totalRounds : 0;
     const winRate = (stats.wins / matchCount) * 100;
 
     // Calculate best agent based on all matches
@@ -109,6 +113,7 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
       kd,
       adr,
       acs,
+      assists: assistsPerRound,
       winRate,
       matchCount,
       bestAgent,
@@ -119,6 +124,7 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
   const kdMean = playerStats.reduce((sum, p) => sum + p.kd, 0) / playerStats.length;
   const adrMean = playerStats.reduce((sum, p) => sum + p.adr, 0) / playerStats.length;
   const acsMean = playerStats.reduce((sum, p) => sum + p.acs, 0) / playerStats.length;
+  const assistsMean = playerStats.reduce((sum, p) => sum + p.assists, 0) / playerStats.length;
   const winRateMean = playerStats.reduce((sum, p) => sum + p.winRate, 0) / playerStats.length;
 
   const kdStdDev = Math.sqrt(
@@ -130,6 +136,9 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
   const acsStdDev = Math.sqrt(
     playerStats.reduce((sum, p) => sum + Math.pow(p.acs - acsMean, 2), 0) / playerStats.length
   );
+  const assistsStdDev = Math.sqrt(
+    playerStats.reduce((sum, p) => sum + Math.pow(p.assists - assistsMean, 2), 0) / playerStats.length
+  );
   const winRateStdDev = Math.sqrt(
     playerStats.reduce((sum, p) => sum + Math.pow(p.winRate - winRateMean, 2), 0) / playerStats.length
   );
@@ -139,10 +148,11 @@ export async function calculateTierList(): Promise<TierListPlayer[]> {
     const kdZ = kdStdDev > 0 ? (player.kd - kdMean) / kdStdDev : 0;
     const adrZ = adrStdDev > 0 ? (player.adr - adrMean) / adrStdDev : 0;
     const acsZ = acsStdDev > 0 ? (player.acs - acsMean) / acsStdDev : 0;
+    const assistsZ = assistsStdDev > 0 ? (player.assists - assistsMean) / assistsStdDev : 0;
     const winRateZ = winRateStdDev > 0 ? (player.winRate - winRateMean) / winRateStdDev : 0;
 
-    // Composite formula: 0.45*KD + 0.25*ADR + 0.20*ACS + 0.10*Win%
-    const compositeScore = 0.45 * kdZ + 0.25 * adrZ + 0.20 * acsZ + 0.10 * winRateZ;
+    // Composite formula: 0.50*ACS + 0.20*Win% + 0.20*KD + 0.10*Assists
+    const compositeScore = 0.50 * acsZ + 0.20 * winRateZ + 0.20 * kdZ + 0.10 * assistsZ;
 
     // Determine tier based on composite score
     let tier: 'S' | 'A' | 'B' | 'C' | 'D';

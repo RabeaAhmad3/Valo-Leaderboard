@@ -44,7 +44,7 @@ export default async function TierListPage() {
               In-form leaderboard based on recent performance (last 3 games)
             </p>
             <div className="text-sm text-gray-500">
-              <p>Composite Score = 0.45×K/D + 0.25×ADR + 0.20×ACS + 0.10×Win%</p>
+              <p>Composite Score = 0.50×ACS + 0.20×Win% + 0.20×K/D + 0.10×Assists</p>
               <p>Tiers: S (≥+1σ), A (≥+0.3σ), B (±0.3σ), C (≤-0.3σ), D (≤-1σ)</p>
               <p>Uses last 3 games if available, or fewer for newer players</p>
             </div>

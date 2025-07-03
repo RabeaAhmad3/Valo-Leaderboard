@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Valo Leaderboard",
-  description: "Track your Valorant 10-stack performance",
+  title: "Jihad Leaderboard",
+  description: "Track your performance in zero brain cell 10 mans",
 };
 
 export default function RootLayout({
