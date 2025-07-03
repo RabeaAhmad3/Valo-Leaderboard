@@ -139,6 +139,7 @@ export async function calculatePlayerBadges(playerId: number): Promise<string[]>
     firstBloodShare: stats.firstBloodShare,
     plants: stats.plants,
     defuses: stats.defuses,
+    totalGames: stats.totalGames,
     legShotPercent: stats.legShotPercent,
     avgAcs: stats.avgAcs,
     isBottomFrag: percentile >= 90, // Bottom 10%

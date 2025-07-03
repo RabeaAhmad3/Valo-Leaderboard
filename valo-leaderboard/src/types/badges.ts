@@ -16,6 +16,7 @@ export interface BadgeStats {
   firstBloodShare: number;
   plants: number;
   defuses: number;
+  totalGames: number;
   legShotPercent: number;
   avgAcs: number;
   isBottomFrag: boolean;
@@ -61,9 +62,9 @@ export const BADGES: Badge[] = [
   {
     id: 'spike-whisperer',
     name: 'Spike Whisperer',
-    description: '10+ plants/defuses',
+    description: 'Average 5+ plants/defuses per game',
     type: 'serious',
-    condition: (stats) => (stats.plants + stats.defuses) >= 10,
+    condition: (stats) => stats.totalGames > 0 && ((stats.plants + stats.defuses) / stats.totalGames) >= 5,
   },
   {
     id: 'toe-shooter',
