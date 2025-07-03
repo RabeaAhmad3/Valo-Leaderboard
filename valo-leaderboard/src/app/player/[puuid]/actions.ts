@@ -104,7 +104,7 @@ export async function getAgentStats(playerId: number): Promise<AgentStats[]> {
       kd: Math.round((stats.kills / (stats.deaths || 1)) * 100) / 100,
       avgAcs: Math.round(stats.score / stats.games),
     }))
-    .filter(stat => stat.games >= 3) // Only show agents with 3+ games
+    // Show all agents (no minimum game requirement)
     .sort((a, b) => b.games - a.games);
 
   return agentStats;
@@ -152,7 +152,7 @@ export async function getMapStats(playerId: number): Promise<MapStats[]> {
       kd: Math.round((stats.kills / (stats.deaths || 1)) * 100) / 100,
       avgAcs: Math.round(stats.score / stats.games),
     }))
-    .filter(stat => stat.games >= 3) // Only show maps with 3+ games
+    // Show all maps (no minimum game requirement)
     .sort((a, b) => b.games - a.games);
 
   return mapStats;
