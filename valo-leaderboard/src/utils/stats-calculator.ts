@@ -47,6 +47,7 @@ export async function calculatePlayerStats(playerId: number) {
     headshots: acc.headshots + match.headshots,
     bodyshots: acc.bodyshots + match.bodyshots,
     legshots: acc.legshots + match.legshots,
+    avgCombatScore: acc.avgCombatScore + match.avgCombatScore,
     firstBloods: acc.firstBloods + match.firstBloods,
     firstDeaths: acc.firstDeaths + match.firstDeaths,
     plants: acc.plants + match.plants,
@@ -54,7 +55,6 @@ export async function calculatePlayerStats(playerId: number) {
     clutches: acc.clutches + match.clutches,
     clutchesLost: acc.clutchesLost + match.clutchesLost,
     econRating: acc.econRating + match.econRating,
-    totalRounds: acc.totalRounds + match.match.rounds,
   }), {
     kills: 0,
     deaths: 0,
@@ -64,6 +64,7 @@ export async function calculatePlayerStats(playerId: number) {
     headshots: 0,
     bodyshots: 0,
     legshots: 0,
+    avgCombatScore: 0,
     firstBloods: 0,
     firstDeaths: 0,
     plants: 0,
@@ -71,13 +72,12 @@ export async function calculatePlayerStats(playerId: number) {
     clutches: 0,
     clutchesLost: 0,
     econRating: 0,
-    totalRounds: 0,
   });
 
   const totalShots = totals.headshots + totals.bodyshots + totals.legshots;
   const kd = totals.deaths > 0 ? totals.kills / totals.deaths : totals.kills;
-  // Calculate ACS correctly: total damage across all matches divided by total rounds
-  const avgAcs = totals.totalRounds > 0 ? Math.round(totals.damage / totals.totalRounds) : 0;
+  // Average the ACS values from each match
+  const avgAcs = Math.round(totals.avgCombatScore / totalGames);
   const avgDamage = totals.damage / totalGames;
   const headshotPercent = totalShots > 0 ? (totals.headshots / totalShots) * 100 : 0;
   const legShotPercent = totalShots > 0 ? (totals.legshots / totalShots) * 100 : 0;
