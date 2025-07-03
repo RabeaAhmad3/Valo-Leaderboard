@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { calculatePlayerStats, calculatePlayerBadges } from '@/utils/stats-calculator';
 import { PlayerStats, AgentStats, MapStats, KillMatrixEntry } from '@/types/leaderboard';
 import { BADGES } from '@/types/badges';
+import { PlayerBadge } from '@/types/player-profile';
 
 export async function getPlayerData(puuid: string) {
   const player = await prisma.player.findUnique({
@@ -48,9 +49,16 @@ export async function getPlayerStats(playerId: number): Promise<PlayerStats> {
   };
 }
 
-export async function getPlayerBadges(playerId: number) {
+export async function getPlayerBadges(playerId: number): Promise<PlayerBadge[]> {
   const badgeIds = await calculatePlayerBadges(playerId);
-  const badges = BADGES.filter(badge => badgeIds.includes(badge.id));
+  const badges = BADGES.filter(badge => badgeIds.includes(badge.id))
+    .map(badge => ({
+      id: badge.id,
+      name: badge.name,
+      description: badge.description,
+      type: badge.type,
+      // Remove the condition function as it can't be serialized
+    }));
   return badges;
 }
 

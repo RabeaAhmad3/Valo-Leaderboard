@@ -26,6 +26,12 @@ async function tryFetchMatchFromRegion(matchId: string, region: string): Promise
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
+    console.log('Henrik API error details:', {
+      status: response.status,
+      statusText: response.statusText,
+      errorData,
+      url,
+    });
     throw new HenrikAPIError(
       `Henrik API error for region ${region}: ${response.status} ${response.statusText}`,
       response.status,
@@ -47,7 +53,7 @@ async function tryFetchMatchFromRegion(matchId: string, region: string): Promise
 }
 
 export async function fetchMatchFromHenrik(matchId: string): Promise<HenrikMatchResponse> {
-  const region = 'virginia'; // Virginia region for all matches
+  const region = 'na'; // North America region (covers Virginia servers)
   
   console.log('Fetching match from Henrik:', { matchId, region, hasApiKey: !!HENRIK_API_KEY });
   

@@ -1,10 +1,10 @@
 'use client';
 
-import { Badge } from '@/types/badges';
+import { PlayerBadge } from '@/types/player-profile';
 import { useState } from 'react';
 
 interface BadgeDisplayProps {
-  badges: Badge[];
+  badges: PlayerBadge[];
 }
 
 export function BadgeDisplay({ badges }: BadgeDisplayProps) {
