@@ -53,7 +53,7 @@ export interface MatchPlayer {
     id: string;
     name: string;
   };
-  stats: PlayerStats;
+  stats: HenrikPlayerStats;
   ability_casts: {
     grenade: number;
     ability_1: number;
@@ -89,7 +89,7 @@ export interface MatchPlayer {
   };
 }
 
-export interface PlayerStats {
+export interface HenrikPlayerStats {
   score: number;
   kills: number;
   deaths: number;
