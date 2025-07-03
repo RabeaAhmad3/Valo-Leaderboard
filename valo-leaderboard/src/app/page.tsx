@@ -1,5 +1,8 @@
 import Link from 'next/link';
 
+// Force static generation
+export const dynamic = 'force-static';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 flex items-center justify-center">
