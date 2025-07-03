@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 const navItems = [
   { href: '/leaderboard', label: 'Leaderboard' },
   { href: '/tier-list', label: 'Tier List' },
-  { href: '/updategame', label: 'Add Match' },
 ];
 
 export function Navigation() {

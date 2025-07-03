@@ -8,32 +8,18 @@ export default async function LeaderboardPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h1 className="text-4xl font-bold text-white mb-2">
-                Leaderboard
-              </h1>
-              <p className="text-gray-400">
-                Overall player statistics across all matches
-              </p>
-            </div>
-            <Link
-              href="/updategame"
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
-            >
-              Add Match
-            </Link>
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Leaderboard
+            </h1>
+            <p className="text-gray-400">
+              Overall player statistics across all matches
+            </p>
           </div>
 
           {leaderboardData.length === 0 ? (
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-12 text-center border border-gray-700">
-              <p className="text-gray-400 mb-4">No matches recorded yet</p>
-              <Link
-                href="/updategame"
-                className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
-              >
-                Add First Match
-              </Link>
+              <p className="text-gray-400">No matches recorded yet</p>
             </div>
           ) : (
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-700">
