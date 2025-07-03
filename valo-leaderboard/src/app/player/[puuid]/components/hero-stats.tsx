@@ -22,7 +22,10 @@ export function HeroStats({ stats }: HeroStatsProps) {
       label: 'K/D Ratio',
       value: stats.kd.toFixed(2),
       subtext: `${stats.kills}/${stats.deaths}`,
-      color: stats.kd >= 1 ? 'from-purple-600 to-purple-700' : 'from-orange-600 to-orange-700',
+      color: stats.kd >= 1.5 ? 'from-green-500 to-green-600' :
+             stats.kd >= 1.0 ? 'from-green-700 to-green-800' :
+             stats.kd >= 0.8 ? 'from-yellow-600 to-yellow-700' :
+             'from-red-600 to-red-700',
     },
     {
       label: 'Avg ACS',
@@ -34,7 +37,9 @@ export function HeroStats({ stats }: HeroStatsProps) {
       label: 'Headshot %',
       value: `${stats.headshotPercent}%`,
       subtext: 'Accuracy',
-      color: stats.headshotPercent >= 20 ? 'from-pink-600 to-pink-700' : 'from-gray-600 to-gray-700',
+      color: stats.headshotPercent >= 20 ? 'from-green-600 to-green-700' :
+             stats.headshotPercent >= 14 ? 'from-yellow-600 to-yellow-700' :
+             'from-red-600 to-red-700',
     },
   ];
 

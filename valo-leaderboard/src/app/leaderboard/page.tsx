@@ -114,7 +114,8 @@ export default async function LeaderboardPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-center">
                           <span className={`font-medium ${
                             player.kd >= 1.5 ? 'text-green-400' :
-                            player.kd >= 1.0 ? 'text-yellow-400' :
+                            player.kd >= 1.0 ? 'text-green-600' :
+                            player.kd >= 0.8 ? 'text-yellow-400' :
                             'text-red-400'
                           }`}>
                             {player.kd}
@@ -125,8 +126,8 @@ export default async function LeaderboardPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-center">
                           <span className={`font-medium ${
-                            player.headshotPercent >= 25 ? 'text-green-400' :
-                            player.headshotPercent >= 20 ? 'text-yellow-400' :
+                            player.headshotPercent >= 20 ? 'text-green-400' :
+                            player.headshotPercent >= 14 ? 'text-yellow-400' :
                             'text-red-400'
                           }`}>
                             {player.headshotPercent}%

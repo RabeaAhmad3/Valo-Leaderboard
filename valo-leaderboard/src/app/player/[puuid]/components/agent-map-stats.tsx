@@ -75,8 +75,9 @@ function StatsTable({
                 </td>
                 <td className="py-3 text-center">
                   <span className={`font-medium ${
-                    stat.kd >= 1.2 ? 'text-green-400' :
-                    stat.kd >= 1.0 ? 'text-yellow-400' :
+                    stat.kd >= 1.5 ? 'text-green-400' :
+                    stat.kd >= 1.0 ? 'text-green-600' :
+                    stat.kd >= 0.8 ? 'text-yellow-400' :
                     'text-red-400'
                   }`}>
                     {stat.kd}
