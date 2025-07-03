@@ -13,3 +13,77 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Player {
+  id        Int      @id @default(autoincrement())
+  puuid     String   @unique
+  name      String
+  tag       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  matches   MatchPlayer[]
+
+  @@index([puuid])
+}
+
+model Match {
+  id         String   @id // match_id from Henrik API
+  map        String
+  startedAt  DateTime
+  redWon     Boolean
+  blueWon    Boolean
+  rounds     Int
+  createdAt  DateTime @default(now())
+  players    MatchPlayer[]
+
+  @@index([startedAt])
+}
+
+model MatchPlayer {
+  id              Int      @id @default(autoincrement())
+  matchId         String
+  playerId        Int
+  match           Match    @relation(fields: [matchId], references: [id])
+  player          Player   @relation(fields: [playerId], references: [id])
+  
+  // Team and agent info
+  team            String   // "Red" or "Blue"
+  agent           String
+  
+  // Core stats
+  kills           Int
+  deaths          Int
+  assists         Int
+  score           Int
+  damage          Int
+  
+  // Accuracy stats
+  headshots       Int
+  bodyshots       Int
+  legshots        Int
+  
+  // Economy stats
+  avgCombatScore  Int
+  econRating      Int      @default(0)
+  spentCredits    Int      @default(0)
+  loadoutValue    Int      @default(0)
+  
+  // Special events
+  firstBloods     Int      @default(0)
+  firstDeaths     Int      @default(0)
+  plants          Int      @default(0)
+  defuses         Int      @default(0)
+  clutches        Int      @default(0)
+  clutchesLost    Int      @default(0)
+  
+  // Derived flags
+  won             Boolean
+  bottomFrag      Boolean  @default(false)
+  topFrag         Boolean  @default(false)
+  
+  createdAt       DateTime @default(now())
+
+  @@unique([matchId, playerId])
+  @@index([playerId])
+  @@index([matchId])
+}
