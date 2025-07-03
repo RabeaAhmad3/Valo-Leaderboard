@@ -22,6 +22,9 @@ export interface BadgeStats {
   isBottomFrag: boolean;
   isBottomestFrag: boolean;
   hasMostClutches: boolean;
+  kdPercentile: number;
+  winRatePercentile: number;
+  acsPercentile: number;
 }
 
 export const BADGES: Badge[] = [
@@ -94,5 +97,15 @@ export const BADGES: Badge[] = [
     description: 'Worst ACS out of everyone',
     type: 'troll',
     condition: (stats) => stats.isBottomestFrag,
+  },
+  {
+    id: 'consistently-mid',
+    name: 'Consistently Mid',
+    description: 'Average K/D, W/L, and ACS (40-60th percentile)',
+    type: 'troll',
+    condition: (stats) => 
+      stats.kdPercentile >= 40 && stats.kdPercentile <= 60 &&
+      stats.winRatePercentile >= 40 && stats.winRatePercentile <= 60 &&
+      stats.acsPercentile >= 40 && stats.acsPercentile <= 60,
   },
 ];

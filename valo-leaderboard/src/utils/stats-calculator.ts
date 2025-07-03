@@ -114,21 +114,38 @@ export async function calculatePlayerStats(playerId: number) {
 export async function calculatePlayerBadges(playerId: number): Promise<string[]> {
   const stats = await calculatePlayerStats(playerId);
   
-  // Get all players' ACS for percentile calculation
-  const allPlayersAcs = await prisma.matchPlayer.groupBy({
-    by: ['playerId'],
-    _avg: {
-      avgCombatScore: true,
+  // Get all players' stats for percentile calculations
+  const allPlayers = await prisma.player.findMany({
+    include: {
+      matches: true,
     },
   });
 
-  const sortedAcs = allPlayersAcs
-    .map(p => p._avg.avgCombatScore || 0)
-    .sort((a, b) => b - a);
+  // Calculate stats for all players
+  const allPlayerStats = await Promise.all(
+    allPlayers.map(player => calculatePlayerStats(player.id))
+  );
 
-  const playerAcs = stats.avgAcs;
-  const playerRank = sortedAcs.findIndex(acs => acs <= playerAcs) + 1;
-  const percentile = (playerRank / sortedAcs.length) * 100;
+  // Sort by K/D
+  const sortedKd = allPlayerStats
+    .map(p => p.kd)
+    .sort((a, b) => b - a);
+  const kdRank = sortedKd.findIndex(kd => kd <= stats.kd) + 1;
+  const kdPercentile = ((sortedKd.length - kdRank + 1) / sortedKd.length) * 100;
+
+  // Sort by Win Rate
+  const sortedWinRate = allPlayerStats
+    .map(p => p.winRate)
+    .sort((a, b) => b - a);
+  const winRateRank = sortedWinRate.findIndex(wr => wr <= stats.winRate) + 1;
+  const winRatePercentile = ((sortedWinRate.length - winRateRank + 1) / sortedWinRate.length) * 100;
+
+  // Sort by ACS
+  const sortedAcs = allPlayerStats
+    .map(p => p.avgAcs)
+    .sort((a, b) => b - a);
+  const acsRank = sortedAcs.findIndex(acs => acs <= stats.avgAcs) + 1;
+  const acsPercentile = ((sortedAcs.length - acsRank + 1) / sortedAcs.length) * 100;
 
   // Get all players' clutches to determine who has the most
   const allPlayersClutches = await prisma.matchPlayer.groupBy({
@@ -154,9 +171,12 @@ export async function calculatePlayerBadges(playerId: number): Promise<string[]>
     totalGames: stats.totalGames,
     legShotPercent: stats.legShotPercent,
     avgAcs: stats.avgAcs,
-    isBottomFrag: percentile >= 90, // Bottom 10%
-    isBottomestFrag: playerRank === sortedAcs.length,
+    isBottomFrag: acsPercentile <= 10, // Bottom 10%
+    isBottomestFrag: acsRank === sortedAcs.length,
     hasMostClutches,
+    kdPercentile,
+    winRatePercentile,
+    acsPercentile,
   };
 
   const earnedBadges = BADGES
