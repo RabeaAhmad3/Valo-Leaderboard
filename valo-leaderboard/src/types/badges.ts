@@ -109,4 +109,14 @@ export const BADGES: Badge[] = [
       stats.winRatePercentile >= 40 && stats.winRatePercentile <= 60 &&
       stats.acsPercentile >= 40 && stats.acsPercentile <= 60,
   },
+  {
+    id: 'passenger-princess',
+    name: 'Passenger Princess',
+    description: 'Positive win rate but bottom 20% K/D and ACS',
+    type: 'troll',
+    condition: (stats) => 
+      stats.winRatePercentile > 50 &&
+      stats.kdPercentile <= 20 &&
+      stats.acsPercentile <= 20,
+  },
 ];
