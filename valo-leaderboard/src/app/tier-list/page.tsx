@@ -5,7 +5,22 @@ import { TierListClient } from './tier-list-client';
 export const dynamic = 'force-dynamic';
 
 export default async function TierListPage() {
-  const { players, tiers } = await getTierListData();
+  let data;
+  try {
+    data = await getTierListData();
+  } catch (error) {
+    console.error('Error loading tier list data:', error);
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-white mb-4">Error Loading Tier List</h1>
+          <p className="text-gray-400">Unable to connect to database. Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
+  
+  const { players, tiers } = data;
 
   if (players.length === 0) {
     return (
