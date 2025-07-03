@@ -43,10 +43,12 @@ export function PlayerCard({ player, isDragging = false }: PlayerCardProps) {
       onMouseLeave={() => setShowTooltip(false)}
     >
       <div className="text-center">
-        <div className="w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-800 rounded-full mx-auto mb-1 flex items-center justify-center border border-gray-600">
-          <span className="text-lg">
-            {getAgentIcon(player.bestAgent)}
-          </span>
+        <div className="w-8 h-8 rounded-full mx-auto mb-1 flex items-center justify-center border border-gray-600 overflow-hidden">
+          <img 
+            src={getAgentIcon(player.bestAgent)} 
+            alt={player.bestAgent}
+            className="w-full h-full object-cover"
+          />
         </div>
         <div className="text-white font-semibold text-xs">
           {player.name}
@@ -97,9 +99,16 @@ export function PlayerCard({ player, isDragging = false }: PlayerCardProps) {
               <span className="text-gray-400">Games:</span>
               <span className="text-gray-300">{player.gamesUsed}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <span className="text-gray-400">Best Agent:</span>
-              <span className="text-gray-300">{getAgentIcon(player.bestAgent)} {player.bestAgent}</span>
+              <div className="flex items-center gap-1">
+                <img 
+                  src={getAgentIcon(player.bestAgent)} 
+                  alt={player.bestAgent}
+                  className="w-4 h-4 rounded-sm"
+                />
+                <span className="text-gray-300">{player.bestAgent}</span>
+              </div>
             </div>
           </div>
           {/* Tooltip arrow */}
