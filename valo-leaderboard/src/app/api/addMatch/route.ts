@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     let matchData;
     try {
       const response = await fetchMatchFromHenrik(matchId);
+      console.log('Successfully fetched match data for:', matchId);
       matchData = response.data;
     } catch (error) {
       if (error instanceof HenrikAPIError) {

@@ -16,6 +16,18 @@ interface ProcessedPlayer {
 }
 
 export async function processMatchData(matchData: HenrikMatchData): Promise<ProcessedMatchData> {
+  console.log('Processing match data:', {
+    matchId: matchData.metadata?.match_id,
+    hasTeams: !!matchData.teams,
+    teamsCount: matchData.teams?.length,
+    playersCount: matchData.players?.length,
+  });
+
+  // Ensure teams is an array
+  if (!matchData.teams || !Array.isArray(matchData.teams)) {
+    throw new Error(`Invalid teams data: expected array, got ${typeof matchData.teams}`);
+  }
+
   const redTeam = matchData.teams.find(t => t.team_id === 'Red');
   const blueTeam = matchData.teams.find(t => t.team_id === 'Blue');
   
