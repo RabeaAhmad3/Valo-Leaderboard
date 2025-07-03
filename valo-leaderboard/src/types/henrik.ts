@@ -33,7 +33,7 @@ export interface MatchMetadata {
     short: string;
   };
   platform: string;
-  premier?: Record<string, any>;
+  premier?: Record<string, unknown>;
   party_rr_penaltys?: Array<{
     party_id: string;
     penalty: number;
