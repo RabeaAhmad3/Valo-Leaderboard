@@ -17,9 +17,9 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           <Link href="/leaderboard" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">V</span>
+              <span className="text-white font-bold text-lg">J</span>
             </div>
-            <span className="text-white font-semibold text-lg">Valo Leaderboard</span>
+            <span className="text-white font-semibold text-lg">Jihad Leaderboard</span>
           </Link>
 
           <div className="flex items-center space-x-1">
