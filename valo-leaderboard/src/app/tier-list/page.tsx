@@ -1,6 +1,9 @@
 import { getTierListData } from './actions';
 import { TierListClient } from './tier-list-client';
 
+// Force dynamic rendering to avoid build-time database calls
+export const dynamic = 'force-dynamic';
+
 export default async function TierListPage() {
   const { players, tiers } = await getTierListData();
 

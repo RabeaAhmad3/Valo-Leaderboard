@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { getLeaderboardData } from './actions';
 
+// Force dynamic rendering to avoid build-time database calls
+export const dynamic = 'force-dynamic';
+
 export default async function LeaderboardPage() {
   const leaderboardData = await getLeaderboardData();
 

@@ -16,6 +16,9 @@ interface PlayerPageProps {
   params: Promise<{ puuid: string }>;
 }
 
+// Force dynamic rendering to avoid build-time database calls
+export const dynamic = 'force-dynamic';
+
 export default async function PlayerPage({ params }: PlayerPageProps) {
   const { puuid } = await params;
   const player = await getPlayerData(puuid);
