@@ -130,6 +130,18 @@ export async function calculatePlayerBadges(playerId: number): Promise<string[]>
   const playerRank = sortedAcs.findIndex(acs => acs <= playerAcs) + 1;
   const percentile = (playerRank / sortedAcs.length) * 100;
 
+  // Get all players' clutches to determine who has the most
+  const allPlayersClutches = await prisma.matchPlayer.groupBy({
+    by: ['playerId'],
+    _sum: {
+      clutches: true,
+    },
+  });
+
+  const maxClutches = Math.max(...allPlayersClutches.map(p => p._sum.clutches || 0));
+  const playerTotalClutches = allPlayersClutches.find(p => p.playerId === playerId)?._sum.clutches || 0;
+  const hasMostClutches = playerTotalClutches > 0 && playerTotalClutches === maxClutches;
+
   const badgeStats: BadgeStats = {
     kd: stats.kd,
     headshotPercent: stats.headshotPercent,
@@ -144,6 +156,7 @@ export async function calculatePlayerBadges(playerId: number): Promise<string[]>
     avgAcs: stats.avgAcs,
     isBottomFrag: percentile >= 90, // Bottom 10%
     isBottomestFrag: playerRank === sortedAcs.length,
+    hasMostClutches,
   };
 
   const earnedBadges = BADGES

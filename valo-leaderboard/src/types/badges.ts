@@ -21,6 +21,7 @@ export interface BadgeStats {
   avgAcs: number;
   isBottomFrag: boolean;
   isBottomestFrag: boolean;
+  hasMostClutches: boolean;
 }
 
 export const BADGES: Badge[] = [
@@ -65,6 +66,13 @@ export const BADGES: Badge[] = [
     description: 'Average 5+ plants/defuses per game',
     type: 'serious',
     condition: (stats) => stats.totalGames > 0 && ((stats.plants + stats.defuses) / stats.totalGames) >= 5,
+  },
+  {
+    id: 'cold-blooded',
+    name: 'Cold Blooded',
+    description: 'Most clutches overall',
+    type: 'serious',
+    condition: (stats) => stats.hasMostClutches,
   },
   {
     id: 'toe-shooter',
